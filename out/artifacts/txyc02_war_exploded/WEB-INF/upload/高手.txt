@@ -1,0 +1,229 @@
+正则表达式：
+$(function () {
+            $("#saveAccount").click(function () {
+                var isPass = true;
+                var realName = $(":input[name='realName']").val();
+                if (!/^[\u4E00-\u9FA5|\w]{1,20}$/gi.test(realName)) {
+                    $("#nameValidateMessageDiv").show();
+                    isPass = false;
+                } else {
+                    $("#nameValidateMessageDiv").hide();
+                }
+                var idcardNo = $(":input[name='idcardNo']").val();
+                if (!/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/gi.test(idcardNo)) {
+                    $("#idcardNoValidateMessage").show();
+                    isPass = false;
+                } else {
+                    $("#idcardNoValidateMessage").hide();
+                }
+                var loginName = $(":input[name='loginName']").val();
+                if (!/^[\u4E00-\u9FA5|\w]{1,30}$/gi.test(loginName)) {
+                    $("#loginNameValidateMessage").show();
+                    isPass = false;
+                } else {
+                    $("#loginNameValidateMessage").hide();
+                }
+                var loginPWD = $(":input[name='loginPasswd']").val();
+                if (!/^[\u4E00-\u9FA5|\w]{1,30}$/gi.test(loginPWD)) {
+                    $("#loginPasswdValidateMessage").show();
+                    isPass = false;
+                } else {
+                    $("#loginPasswdValidateMessage").hide();
+                }
+
+
+                var repeatPwd = $(":input[name='repeatPasswd']").val();
+                if (repeatPwd != loginPWD) {
+                    $("#repeatValidateMessage").show();
+                    isPass = false;
+                } else {
+                    $("#repeatValidateMessage").hide();
+                }
+
+
+                var telephone=$(":input[name='telephone']").val();
+                if (!/^1[3456789]\d{9}$/gi.test(telephone)) {
+                    $("#telValidateMessage").show();
+                    isPass = false;
+                } else {
+                    $("#telValidateMessage").hide();
+                }
+
+
+                var recommenderId = $(":input[name='recommenderId']").val();
+                if (!/\d{4}$/gi.test(recommenderId)) {
+                    isPass = false;
+                    $("#recommenderIdValidateMessage").show();
+                } else {
+                    $("#recommenderIdValidateMessage").hide();
+                    var birthday = idcardNo.substring(6, 14);
+                    $(":input[name='birthdate']").attr("value", birthday);
+                }
+
+
+                var email = $(":input[name='email']").val();
+                if (!/^\w+@[a-z0-9]+\.[a-z]{2,4}$/gi.test(email)) {
+                    isPass = false;
+                    $("#emailValidateMessage").show();
+                } else {
+                    $("#emailValidateMessage").hide();
+                }
+
+
+                var mailaddress = $(":input[name='mailaddress']").val();
+                if (!/^[\u4E00-\u9FA5|\w]{0,50}$/gi.test(mailaddress)) {
+                    isPass = false;
+                    $("#mailValidateMessage").show();
+                } else {
+                    $("#mailValidateMessage").hide();
+                }
+
+
+                var zipcode = $(":input[name='zipcode']").val();
+                if (!/^\d{0,6}$/gi.test(zipcode)) {
+                    isPass = false;
+                    $("#zipcodeValidateMessage").show();
+                } else {
+                    $("#zipcodeValidateMessage").hide();
+                }
+
+
+                var qq = $(":input[name='qq']").val();
+                if (!/^(\d{0}|\d{5,13})$/gi.test(qq)) {
+                    isPass = false;
+                    $("#qqValidateMessage").show();
+                } else {
+                    $("#qqValidateMessage").hide();
+                }
+
+
+
+
+                if (isPass) {
+                    //3、执行保存操作，提交 form 表单
+                    $(".main_form").submit();
+                }
+
+            })
+        });
+
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ include file="/commons/common.jsp" %>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+        <script type="text/javascript">
+
+
+        </script>
+        <script language="javascript" type="text/javascript">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            //保存结果的提示
+            function showResult() {
+                showResultDiv(true);
+                window.setTimeout("showResultDiv(false);", 3000);
+            }
+            function showResultDiv(flag) {
+                var divResult = document.getElementById("save_result_info");
+                if (flag)
+                    divResult.style.display = "block";
+                else
+                    divResult.style.display = "none";
+            }
+
+
+            //切换资费类型
+            function feeTypeChange(type) {
+                var inputArray = document.getElementById("main").getElementsByTagName("input");
+                if (type == 1) {
+                    inputArray[5].readOnly = true;
+                    inputArray[5].value = "";
+                    inputArray[5].className += " readonly";
+                    inputArray[6].readOnly = false;
+                    inputArray[6].className = "width100";
+                    inputArray[7].readOnly = true;
+                    inputArray[7].className += " readonly";
+                    inputArray[7].value = "";
+                }
+                else if (type == 2) {
+                    inputArray[5].readOnly = false;
+                    inputArray[5].className = "width100";
+                    inputArray[6].readOnly = false;
+                    inputArray[6].className = "width100";
+                    inputArray[7].readOnly = false;
+                    inputArray[7].className = "width100";
+                }
+                else if (type == 3) {
+                    inputArray[5].readOnly = true;
+                    inputArray[5].value = "";
+                    inputArray[5].className += " readonly";
+                    inputArray[6].readOnly = true;
+                    inputArray[6].value = "";
+                    inputArray[6].className += " readonly";
+                    inputArray[7].readOnly = false;
+                    inputArray[7].className = "width100";
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <!--Logo区域开始-->
+        <div id="header">
+            <img src="images/logo.png" alt="logo" class="left"/>
+            <a href="#">[退出]</a>            
+        </div>
+        <!--Logo区域结束-->
+        <!--导航区域开始-->
+        <div id="navi">
+            <ul id="menu">
+                <li><a href="../index.html" class="index_off"></a></li>
+                <li><a href="../role/role_list.html" class="role_off"></a></li>
+                <li><a href="../admin/admin_list.html" class="admin_off"></a></li>
+                <li><a href="../fee/fee_list.html" class="fee_on"></a></li>
+                <li><a href="../account/account_list.html" class="account_off"></a></li>
+                <li><a href="../service/service_list.html" class="service_off"></a></li>
+                <li><a href="../bill/bill_list.html" class="bill_off"></a></li>
+                <li><a href="../report/report_list.html" class="report_off"></a></li>
+                <li><a href="../user/user_info.html" class="information_off"></a></li>
+                <li><a href="../user/user_modi_pwd.html" class="password_off"></a></li>
+            </ul>
+        </div>
+        <!--导航区域结束-->
+        <!--主要区域开始-->
+        <div id="main">            
+            <div id="save_result_info" class="save_success">保存成功！</div>
+            <form action="" method="" class="main_form">
+                <div class="text_info clearfix"><span>资费ID：</span></div>
+                <div class="input_info"><input type="text" class="readonly" readonly value="${cost.id}" /></div>
+                <div class="text_info clearfix"><span>资费名称：</span></div>
+                <div class="input_info">
+                    <input type="text" class="width300" value="请填写资费名称"/>
+                    <span class="required">*</span>
+                    <div class="validate_msg_short">50长度的字母、数字、汉字和下划线的组合</div>
+                </div>
+                <div class="text_info clearfix"><span>资费类型：</span></div>
+                <div class="input_info fee_type">
+                    <input type="radio" name="radFeeType" id="monthly" onclick="feeTypeChange(1);" />
+                    <label for="monthly">包月</label>
+                    <input type="radio" name="radFeeType" checked="checked" id="package" onclick="feeTypeChange(2);" />
+                    <label for="package">套餐</label>
+                    <input type="radio" name="radFeeType" id="timeBased" onclick="feeTypeChange(3);" />
+                    <label f
